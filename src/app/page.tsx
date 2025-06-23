@@ -19,7 +19,7 @@ export default async function Home() {
         imageSrc={item.image}
         name={item.name}
         price={item.price} 
-        link={item.link} 
+        link={`/trade/${item.name}`} 
         />    
         ))}
       </div>

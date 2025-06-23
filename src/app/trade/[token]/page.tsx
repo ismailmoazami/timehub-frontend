@@ -1,32 +1,71 @@
-// app/trade/[token]/page.tsx
+"use client"
+import { useEffect, useState } from "react";
+import * as React from "react";
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { time_market_abi } from "@/constants";
+
 type TokenPageProps = {
   params: { token: string };
 };
 
-const TOKENS = {
-  toly: {
-    name: "Toly",
-    image: "/images/toly.png",
-    price: 10,
-    description: "Toly is a sample token with unique features.",
-  },
-  james: {
-    name: "James",
-    image: "/images/james.png",
-    price: 15,
-    description: "James is another sample token with great potential.",
-  },
-  // Add more tokens as needed
-};
-
-export default async function TokenPage({ params }: TokenPageProps) {
+export default function TokenPage({ params }: TokenPageProps) {
   
-  const response = await fetch(`http://localhost:8000/time_market_data/${params.token}`)
-  const tokenData = await response.json() 
+  const [tradeAmount, setTradeAmount] = useState(0);
+  const [tokenData, setTokenData] = useState<any>(null);
+  const [successMsg, setSuccessMsg] = useState("");
+  const { data: hash, isPending, writeContractAsync } = useWriteContract();
+  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined);
+  const { isLoading: isConfirming, isSuccess, isError } = useWaitForTransactionReceipt({ hash });  
+  
+  useEffect(() => {
+    console.log("params.token: ", params.token);
 
-  if (!tokenData) {
+    const fetchTokenData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/time_market_data/${params.token}`);
+        console.log("API response status:", response.status);
+
+        const data = await response.json();
+        console.log("Fetched data:", data);
+
+        setTokenData(data);
+      } catch (error) {
+        setTokenData(null);
+      }
+    };
+    fetchTokenData();
+  }, [params.token]);
+
+  useEffect(() => {
+    if (isConfirming && txHash) {
+      setSuccessMsg("Transaction sent. Waiting for confirmation...");
+    } else if (isSuccess && txHash) {
+      setSuccessMsg(`Transaction confirmed! Hash: ${txHash}`);
+    } else if (isError && txHash) {
+      setSuccessMsg("Transaction failed or was reverted.");
+    }
+  }, [isConfirming, isSuccess, isError, txHash]);
+
+  if (!tokenData || !tokenData.name) {
     return <div className="text-center text-red-500">Token not found.</div>;
   }
+
+  async function buy(buy_amount: number) {
+    try {
+      setSuccessMsg("");
+      const hash = await writeContractAsync({
+        abi: time_market_abi,
+        address: tokenData.address as `0x${string}`, 
+        functionName: "buy",
+        value: BigInt(buy_amount)
+      })
+      setTxHash(hash);
+      
+    } catch (error) {
+      setSuccessMsg(`Transaction failed. Error: ${error}`);
+    }
+  }
+
 
   return (
     <div className="bg-[#D2C4C4] min-h-screen flex items-center justify-center p-8">
@@ -50,13 +89,19 @@ export default async function TokenPage({ params }: TokenPageProps) {
           <div className="flex items-center mt-6">
             <label className="text-gray-600 mr-4">Minutes:</label>
             <input
-              type="number"
+              type="text"
               defaultValue={20}
-              className="border border-gray-300 rounded px-3 py-2 w-20 text-center"
+              value={tradeAmount}
+              onChange={(e) => setTradeAmount(e.target.value ? parseInt(e.target.value, 10) : 0)} className="border border-gray-300 rounded px-3 py-2 w-30 text-center"
             />
+            {successMsg && (
+              <span className="ml-4 text-green-600 font-semibold max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap" title={successMsg}>
+                {successMsg}
+              </span>
+            )}
           </div>
           <div className="flex mt-6 gap-4">
-            <button className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition">
+            <button onClick={() => buy(tradeAmount)} className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition">
               Buy
             </button>
             <button className="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600 transition">
