@@ -1,8 +1,9 @@
 "use client"
 import { useEffect, useState } from "react";
 import * as React from "react";
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt, useConfig, useAccount } from "wagmi";
 import { time_market_abi } from "@/constants";
+import { readContract } from "@wagmi/core";
 
 type TokenPageProps = {
   params: { token: string };
@@ -16,17 +17,15 @@ export default function TokenPage({ params }: TokenPageProps) {
   const { data: hash, isPending, writeContractAsync } = useWriteContract();
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined);
   const { isLoading: isConfirming, isSuccess, isError } = useWaitForTransactionReceipt({ hash });  
-  
+  const config = useConfig();
+  const account = useAccount();
+
   useEffect(() => {
-    console.log("params.token: ", params.token);
 
     const fetchTokenData = async () => {
       try {
         const response = await fetch(`http://localhost:8000/time_market_data/${params.token}`);
-        console.log("API response status:", response.status);
-
         const data = await response.json();
-        console.log("Fetched data:", data);
 
         setTokenData(data);
       } catch (error) {
@@ -63,6 +62,61 @@ export default function TokenPage({ params }: TokenPageProps) {
       
     } catch (error) {
       setSuccessMsg(`Transaction failed. Error: ${error}`);
+    }
+  }
+
+  async function getApprovedAmount(): Promise<number> {
+    if(!tokenData.address) {
+        alert("No address found for this chainid!");
+    }        
+    
+    const response = await readContract(
+        config,
+        {
+            abi: time_market_abi, 
+            address: tokenData.address as `0x${string}`,
+            functionName: "allowance",
+            args:[account.address, tokenData.address as `0x${string}`]
+        }
+    )
+    return response as number;
+
+  } 
+  
+  async function sell(sell_amount: number) {
+    const approvedAmount = await getApprovedAmount()
+    if(approvedAmount < sell_amount) {
+      try {
+        await writeContractAsync({
+          abi: time_market_abi,
+          address: tokenData.address as `0x${string}`,
+          functionName: "approve",
+          args:[
+            tokenData.address,
+            BigInt(sell_amount)
+          ]
+        });
+        setSuccessMsg("Approval successful. Proceeding with the sell transaction...");
+      } catch(error) {
+        console.log("Approval failed: ", error);
+        setSuccessMsg(`Approval failed. Error: ${error}`);
+      }
+      }
+    
+    try {
+      const hash = await writeContractAsync({
+        abi: time_market_abi,
+        address: tokenData.address as `0x${string}`,
+        functionName: "sell",
+        args:[
+          BigInt(sell_amount)
+        ]
+      });
+      
+      setTxHash(hash);
+    } catch(error) {
+      console.log("Sell transaction failed: ", error);
+      setSuccessMsg(`Sell transaction failed. Error: ${error}`);
     }
   }
 
@@ -104,7 +158,7 @@ export default function TokenPage({ params }: TokenPageProps) {
             <button onClick={() => buy(tradeAmount)} className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition">
               Buy
             </button>
-            <button className="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600 transition">
+            <button onClick={() => sell(tradeAmount)} className="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600 transition">
               Sell
             </button>
           </div>
