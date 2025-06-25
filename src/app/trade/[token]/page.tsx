@@ -6,11 +6,12 @@ import { time_market_abi } from "@/constants";
 import { readContract } from "@wagmi/core";
 
 type TokenPageProps = {
-  params: { token: string };
+  params: Promise<{ token: string }>;
 };
 
 export default function TokenPage({ params }: TokenPageProps) {
   
+  const [resolvedParams, setResolvedParams] = useState<{ token: string } | null>(null);
   const [tradeAmount, setTradeAmount] = useState<string>("0");
   const [tokenData, setTokenData] = useState<any>(null);
   const [successMsg, setSuccessMsg] = useState("");
@@ -23,10 +24,18 @@ export default function TokenPage({ params }: TokenPageProps) {
   const DECIMALS = 10**18;
 
   useEffect(() => {
+    const resolveParams = async () => {
+      const resolved = await params; // Resolve the params Promise
+      setResolvedParams(resolved);
+    };
+    resolveParams();
+  }, [params]);
+
+  useEffect(() => {
 
     const fetchTokenData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/time_market_data/${params.token}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/time_market_data/${resolvedParams?.token}`);
         const data = await response.json();
 
         setTokenData(data);
@@ -35,7 +44,7 @@ export default function TokenPage({ params }: TokenPageProps) {
       }
     };
     fetchTokenData();
-  }, [params.token]);
+  }, [resolvedParams]);
 
   useEffect(() => {
     if (isConfirming && txHash) {
