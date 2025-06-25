@@ -26,7 +26,7 @@ export default function TokenPage({ params }: TokenPageProps) {
 
     const fetchTokenData = async () => {
       try {
-        const response = await fetch(`http://192.168.0.101:8000/time_market_data/${params.token}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/time_market_data/${params.token}`);
         const data = await response.json();
 
         setTokenData(data);
