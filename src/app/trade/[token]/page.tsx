@@ -157,7 +157,7 @@ export default function TokenPage({ params }: TokenPageProps) {
             <label className="text-gray-600 mr-4">Minutes:</label>
             <input
               type="text"
-              defaultValue={20}
+              defaultValue="20"
               value={tradeAmount}
               onChange={(e) => {
                 const value = e.target.value;
@@ -175,10 +175,10 @@ export default function TokenPage({ params }: TokenPageProps) {
             )}
           </div>
           <div className="flex mt-6 gap-4">
-            <button onClick={() => buy(tradeAmount*DECIMALS)} className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition">
+            <button onClick={() => buy(parseFloat(tradeAmount)*DECIMALS)} className="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition">
               Buy
             </button>
-            <button onClick={() => sell(tradeAmount*DECIMALS)} className="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600 transition">
+            <button onClick={() => sell(parseFloat(tradeAmount)*DECIMALS)} className="bg-red-500 text-white py-2 px-6 rounded hover:bg-red-600 transition">
               Sell
             </button>
           </div>
