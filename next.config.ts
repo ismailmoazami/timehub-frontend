@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
     domains: ["ik.imagekit.io"], 
     unoptimized: true
   },
-  output: 'export',
   distDir: 'out',
   basePath: "",
   assetPrefix: "./",
