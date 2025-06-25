@@ -5,10 +5,10 @@ const nextConfig: NextConfig = {
     domains: ["ik.imagekit.io"], 
     unoptimized: true
   },
-  distDir: 'out',
-  basePath: "",
-  assetPrefix: "./",
-  trailingSlash: true
+  // distDir: 'out',
+  // basePath: "",
+  // assetPrefix: "./",
+  // trailingSlash: true
 };
 
 export default nextConfig;
