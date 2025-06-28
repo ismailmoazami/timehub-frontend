@@ -857,3 +857,455 @@ export const time_market_abi = [
         "inputs": []
     }
 ]
+
+export const factory_abi = [
+    {
+        "type": "constructor",
+        "inputs": [
+            {
+                "name": "_initialTokenSupply",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_initialEtherReserve",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_platformFee",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_mcLowerLimit",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_mcHigherLimit",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_tokensMigrationThreshold",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_migrationFee",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_poolCreationFee",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_uniswapV2Router",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "receive",
+        "stateMutability": "payable"
+    },
+    {
+        "type": "function",
+        "name": "MIN_TOTAL_SUPPLY",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "createNewTimeMarket",
+        "inputs": [
+            {
+                "name": "_name",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "_symbol",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "createNewTimeMarketAndBuy",
+        "inputs": [
+            {
+                "name": "_name",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "_symbol",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "payable"
+    },
+    {
+        "type": "function",
+        "name": "initialEtherReserve",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "initialTokenSupply",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "isTimeHubToken",
+        "inputs": [
+            {
+                "name": "_token",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "mcHigherLimit",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "mcLowerLimit",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "migrationFee",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "owner",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "platformFee",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "poolCreationFee",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "renounceOwnership",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "setParameters",
+        "inputs": [
+            {
+                "name": "_initialTokenSupply",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_initialEtherReserve",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_platformFee",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_mcLowerLimit",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_mcHigherLimit",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_tokensMigrationThreshold",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_migrationFee",
+                "type": "uint256",
+                "internalType": "uint256"
+            },
+            {
+                "name": "_poolCreationFee",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "timeMarkets",
+        "inputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "creator",
+                "type": "address",
+                "internalType": "address"
+            },
+            {
+                "name": "isTimehubToken",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "tokensMigrationThreshold",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "transferOwnership",
+        "inputs": [
+            {
+                "name": "newOwner",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "uniswapV2Router",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "withdrawAll",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "event",
+        "name": "NewTimeTokenCreated",
+        "inputs": [
+            {
+                "name": "timeToken",
+                "type": "address",
+                "indexed": false,
+                "internalType": "address"
+            },
+            {
+                "name": "creator",
+                "type": "address",
+                "indexed": false,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "event",
+        "name": "OwnershipTransferred",
+        "inputs": [
+            {
+                "name": "previousOwner",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            },
+            {
+                "name": "newOwner",
+                "type": "address",
+                "indexed": true,
+                "internalType": "address"
+            }
+        ],
+        "anonymous": false
+    },
+    {
+        "type": "error",
+        "name": "FeeTooHigh",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "McLowerLimitBiggerThanUpperLimit",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "OwnableInvalidOwner",
+        "inputs": [
+            {
+                "name": "owner",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "OwnableUnauthorizedAccount",
+        "inputs": [
+            {
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
+            }
+        ]
+    },
+    {
+        "type": "error",
+        "name": "TransferFailed",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "WrongTotalSupply",
+        "inputs": []
+    },
+    {
+        "type": "error",
+        "name": "ZeroValue",
+        "inputs": []
+    }
+]

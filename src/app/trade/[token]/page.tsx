@@ -34,8 +34,8 @@ export default function TokenPage({ params }: TokenPageProps) {
   useEffect(() => {
 
     const fetchTokenData = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/time_market_data/${resolvedParams?.token}`);
+      try { // ${process.env.NEXT_PUBLIC_API_URL}
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${resolvedParams?.token}`);
         const data = await response.json();
 
         setTokenData(data);

@@ -15,6 +15,11 @@ export default function Header() {
                 />
                 <span className="text-2xl font-bold text-gray-800">Timehub</span>
             </a>
+            <a href="/launch" className="flex items-center gap-3">
+                    <div className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                        <span className="text-xl font-bold">Create</span>
+                    </div>
+            </a>
         </div>
         <ConnectButton />
         </header> 
