@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import * as React from "react";
 import { useWriteContract, useWaitForTransactionReceipt, useConfig, useAccount } from "wagmi";
 import { time_market_abi } from "@/constants";
-import { readContract } from "@wagmi/core";
 
 type TokenPageProps = {
   params: Promise<{ token: string }>;
@@ -34,7 +33,7 @@ export default function TokenPage({ params }: TokenPageProps) {
   useEffect(() => {
 
     const fetchTokenData = async () => {
-      try { // ${process.env.NEXT_PUBLIC_API_URL}
+      try { 
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${resolvedParams?.token}`);
         const data = await response.json();
 
@@ -80,7 +79,7 @@ export default function TokenPage({ params }: TokenPageProps) {
     if(!tokenData.address) {
         alert("No address found for this chainid!");
     }        
-    
+    const { readContract } = await import("@wagmi/core");
     const response = await readContract(
         config,
         {

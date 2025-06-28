@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useWriteContract, useAccount, useChainId } from "wagmi";
 import { factory_abi } from "@/constants";
 import { decodeEventLog, parseEventLogs } from "viem";
-import { waitForTransactionReceipt } from "@wagmi/core";
 import config from "@/RainbowKitConfig"
 
 export default function LaunchPage() {
@@ -51,6 +50,7 @@ export default function LaunchPage() {
         args: [name, symbol],
       });
 
+      const { waitForTransactionReceipt } = await import("@wagmi/core");
       const receipt = await waitForTransactionReceipt(config, { hash })
       const eventName = "NewTimeTokenCreated"
       const logs = parseEventLogs<typeof factory_abi>({
