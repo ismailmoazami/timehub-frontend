@@ -2,7 +2,9 @@ import TimeMarketCard from "@/components/TimeMarketCard";
 
 export default async function Home() {
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/time_markets_data`)
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/time_markets_data`, {
+    cache: "no-store"
+  })
   const data = await response.json()
 
   console.log(`data: ${data}`)
