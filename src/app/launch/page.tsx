@@ -21,7 +21,7 @@ export default function LaunchPage() {
       setSuccessMsg("");
       setErrorMsg("");
       
-      const userCheckResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${account.address}`);
+      const userCheckResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${account.address}`);
       if(!userCheckResponse.ok) {
         // Step 1: Call the backend API route
         const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
@@ -65,7 +65,7 @@ export default function LaunchPage() {
       console.log(`New deployed contract address: ${contractAddress}`);
       
       await new Promise((resolve) => setTimeout(resolve, 10000));
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${contractAddress}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/time_markets/${contractAddress}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
